@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Practice</title>
+</head>
+<body>
+
+<h1>🚀 WebSocket Demo</h1>
+
+<h2>Counter: <span id="counter">0</span></h2>
+
+<script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+
+<script>
+    // Connect to server
+    const socket = io();
+
+    // Receive data from backend
+    socket.on('update', function(data) {
+        document.getElementById('counter').innerText = data.count;
+    });
+</script>
+
+</body>
+</html>

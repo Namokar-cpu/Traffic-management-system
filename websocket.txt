@@ -1,0 +1,9 @@
+1: websocjets is used to make the real time applications like chatting applications and all other 
+2: like generally we uses a http requests to fetch a data like : client make a request to server -> server understanf that request
+-> fetch a data required for the client ex in amazon,flipkart it uses a http requests method : 
+3: polling is used in http: two ypes: short : where we wait for short time to get the data
+                                    : long: where we wait for slightly longer duration to get data
+4: for that we uses server sent events: only problem is server only sent data to client : here connection is unidirectional
+5 : to make the websocket connection client sent a http handshake upgraded request
+6: HTTP are: stateless , unidirectional, half-duplex(either server sent data or client sent requests)
+7: websockets are: full duplex, bidirectional, ststefull
