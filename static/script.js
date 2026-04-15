@@ -84,6 +84,11 @@ socket.on('traffic_update', function (data) {
     animateNumber(direction + "Trucks", trucks);
     animateNumber(direction + "Bikes", bikes);
     
+    // Update live graph
+    if (typeof updateTrafficChart === 'function') {
+        updateTrafficChart(direction, cars + trucks + bikes);
+    }
+    
     // Update signal lights with countdown
     updateSignalLight(direction, signal, timeRemaining);
     

@@ -1,465 +1,326 @@
-/* body{
-    font-family: Arial;
-    background:#111;
-    color:white;
-}
-
-.container{
-    display:grid;
-    grid-template-columns:250px 1fr 1fr;
-    grid-template-rows:1fr 1fr;
-    gap:10px;
-    height:100vh;
-}
-
-.sidebar{
-    grid-row:1/3;
-    background:#222;
-    padding:20px;
-}
-
-.camera{
-    background:#333;
-    padding:10px;
-    border-radius:10px;
-}
-
-.camera img{
-    width:100%;
-    border-radius:5px;
-} */
-
 /* ============================================
-   IMPORTS & RESET
+   REALISTIC MUNICIPAL DASHBOARD CSS
    ============================================ */
+   
+:root {
+    --bg-color: #0f172a;
+    --panel-bg: #1e293b;
+    --border-color: #334155;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #3b82f6;
+    
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ============================================
-   BODY & BACKGROUND
-   ============================================ */
-body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    color: white;
+body.dashboard-body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
     min-height: 100vh;
-    overflow-x: hidden;
-}
-
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    display: flex;
+    flex-direction: column;
 }
 
 /* ============================================
    HEADER
    ============================================ */
-.header {
-    text-align: center;
-    padding: 30px 20px;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    border-bottom: 2px solid rgba(0, 255, 255, 0.3);
-    margin-bottom: 20px;
+.app-header {
+    background-color: var(--panel-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.header h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 900;
-    background: linear-gradient(45deg, #00f5ff, #00ff88);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
-    letter-spacing: 3px;
-    margin-bottom: 10px;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.tagline {
-    font-size: 1rem;
-    color: #00ff88;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+.logo-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--accent);
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.app-header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: var(--text-main);
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--success);
+    animation: simplePulse 2s infinite;
+}
+
+@keyframes simplePulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
 }
 
 /* ============================================
-   CONTAINER GRID
+   LAYOUT
    ============================================ */
-.container {
+.dashboard-container {
     display: grid;
-    grid-template-columns: 280px 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 20px;
-    padding: 0 20px 20px;
-    max-width: 1800px;
-    margin: 0 auto;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    padding: 24px;
+    flex: 1;
 }
 
 /* ============================================
-   SIDEBAR - SIGNAL CONTROL PANEL
+   PANELS & SIDEBAR
    ============================================ */
 .sidebar {
-    grid-row: 1/3;
-    background: rgba(15, 15, 35, 0.8);
-    backdrop-filter: blur(15px);
-    border-radius: 20px;
-    padding: 25px;
-    border: 2px solid rgba(0, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.panel {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     overflow: hidden;
 }
 
-.sidebar::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
-    animation: rotate 20s linear infinite;
+.panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: rgba(0,0,0,0.1);
 }
 
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.sidebar-header {
-    position: relative;
-    z-index: 1;
-    margin-bottom: 30px;
-}
-
-.sidebar-header h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.3rem;
-    color: #00f5ff;
-    margin-bottom: 15px;
-    letter-spacing: 2px;
-}
-
-.status-indicator {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #00ff88;
-    font-size: 0.9rem;
+.panel-header h2 {
+    font-size: 0.875rem;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
 }
 
-.pulse {
-    width: 12px;
-    height: 12px;
-    background: #00ff88;
-    border-radius: 50%;
-    animation: pulse 1.5s ease infinite;
-    box-shadow: 0 0 15px #00ff88;
+.signal-list {
+    padding: 12px 20px;
 }
 
-@keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.2); }
-}
-
-/* ============================================
-   SIGNAL PANEL
-   ============================================ */
-.signal-panel {
-    position: relative;
-    z-index: 1;
-    margin-bottom: 30px;
-}
-
-.signal-item {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 15px;
+.signal-row, .stat-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.3s ease;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.signal-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: #00f5ff;
-    transform: translateX(5px);
-}
-
-.signal-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.direction-icon {
-    font-size: 1.5rem;
-}
-
-.traffic-light {
-    display: flex;
-    align-items: center;
-}
-
-.light {
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    box-shadow: 0 0 20px currentColor;
-    animation: glow 2s ease infinite;
-}
-
-#northSignal, #southSignal, #eastSignal, #westSignal {
-    background: #ff0000;
-    color: white;
-}
-
-#northSignal.GREEN, #southSignal.GREEN, #eastSignal.GREEN, #westSignal.GREEN {
-    background: #00ff00;
-    color: #000;
-}
-
-#northSignal.YELLOW, #southSignal.YELLOW, #eastSignal.YELLOW, #westSignal.YELLOW {
-    background: #ffff00;
-    color: #000;
-}
-
-@keyframes glow {
-    0%, 100% { box-shadow: 0 0 10px currentColor; }
-    50% { box-shadow: 0 0 25px currentColor; }
-}
-
-/* ============================================
-   SYSTEM STATS
-   ============================================ */
-.system-stats {
-    position: relative;
-    z-index: 1;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid rgba(0, 255, 255, 0.2);
-}
-
-.system-stats h3 {
-    color: #00f5ff;
-    margin-bottom: 15px;
-    font-size: 1.1rem;
-    font-family: 'Orbitron', sans-serif;
-}
-
-.stat-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.stat-item:last-child {
+.signal-row:last-child, .stat-row:last-child {
     border-bottom: none;
 }
 
-.stat-value {
-    color: #00ff88;
-    font-weight: 700;
-    font-family: 'Orbitron', sans-serif;
+.direction {
+    font-size: 0.875rem;
+    font-weight: 500;
 }
 
-/* ============================================
-   CAMERA FEEDS
-   ============================================ */
-.camera {
-    background: rgba(15, 15, 35, 0.8);
-    backdrop-filter: blur(15px);
-    border-radius: 20px;
-    padding: 20px;
-    border: 2px solid rgba(0, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.camera:hover {
-    transform: translateY(-5px);
-    border-color: #00f5ff;
-    box-shadow: 0 12px 40px rgba(0, 245, 255, 0.4);
-}
-
-.camera-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.camera-header h3 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.1rem;
-    color: #00f5ff;
-    letter-spacing: 1px;
-}
-
-.camera-status {
-    color: #00ff00;
-    font-size: 1.5rem;
-    animation: blink 2s ease infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-}
-
-/* ============================================
-   VIDEO WRAPPER
-   ============================================ */
-.video-wrapper {
-    position: relative;
-    width: 100%;
-    border-radius: 15px;
-    overflow: hidden;
-    margin-bottom: 15px;
-    border: 2px solid rgba(0, 255, 255, 0.3);
-}
-
-.video-wrapper img {
-    width: 100%;
-    display: block;
-    border-radius: 13px;
-}
-
-.scan-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #00f5ff, transparent);
-    animation: scan 3s linear infinite;
-}
-
-@keyframes scan {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(300px); }
-}
-
-/* ============================================
-   VEHICLE STATS
-   ============================================ */
-.vehicle-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-.stat-box {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 15px 10px;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.stat-box:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(1.05);
-}
-
-.stat-box.car {
-    border-left: 3px solid #00f5ff;
-}
-
-.stat-box.truck {
-    border-left: 3px solid #ff00ff;
-}
-
-.stat-box.bike {
-    border-left: 3px solid #00ff88;
-}
-
-.stat-icon {
-    font-size: 2rem;
-    margin-bottom: 5px;
+.stats-list {
+    padding: 12px 20px;
 }
 
 .stat-label {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
 }
 
-.stat-number {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #00ff88;
+.stat-value {
+    font-size: 1rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.chart-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-wrapper {
+    flex: 1;
+    padding: 16px;
+    min-height: 200px;
 }
 
 /* ============================================
-   FOOTER
+   BADGES (TRAFFIC LIGHTS)
    ============================================ */
-.footer {
+.badge {
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    min-width: 60px;
     text-align: center;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    border-top: 2px solid rgba(0, 255, 255, 0.3);
-    margin-top: 20px;
-    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
 }
 
-.footer strong {
-    color: #00f5ff;
+.badge.RED {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+.badge.GREEN {
+    background-color: rgba(34, 197, 94, 0.2);
+    color: var(--success);
+    border: 1px solid rgba(34, 197, 94, 0.5);
+}
+
+.badge.YELLOW {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: var(--warning);
+    border: 1px solid rgba(245, 158, 11, 0.5);
+}
+
+/* ============================================
+   MAIN FEEDS GRID
+   ============================================ */
+.feeds-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    align-content: start;
+}
+
+.camera-card {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.camera-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.camera-header h3 {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.camera-status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--success);
+    border-radius: 50%;
+}
+
+.video-container {
+    background-color: #000;
+    aspect-ratio: 4/3;
+    position: relative;
+}
+
+.video-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.camera-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--border-color);
+}
+
+.item-stat {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    border-right: 1px solid var(--border-color);
+}
+
+.item-stat:last-child {
+    border-right: none;
+}
+
+.item-stat .label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.item-stat .val {
+    font-size: 1.125rem;
+    font-weight: 600;
+    transition: transform 0.2s, color 0.2s;
+    font-variant-numeric: tabular-nums;
 }
 
 /* ============================================
    RESPONSIVE DESIGN
    ============================================ */
-@media (max-width: 1400px) {
-    .header h1 {
-        font-size: 2rem;
-    }
-    
-    .container {
-        grid-template-columns: 250px 1fr 1fr;
-    }
-}
-
 @media (max-width: 1024px) {
-    .container {
+    .dashboard-container {
         grid-template-columns: 1fr;
-        grid-template-rows: auto;
     }
     
     .sidebar {
-        grid-row: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .panel {
+        flex: 1;
+        min-width: 300px;
     }
 }
 
 @media (max-width: 768px) {
-    .header h1 {
-        font-size: 1.5rem;
+    .feeds-grid {
+        grid-template-columns: 1fr;
     }
     
-    .vehicle-stats {
-        grid-template-columns: 1fr;
+    .sidebar {
+        flex-direction: column;
     }
 }

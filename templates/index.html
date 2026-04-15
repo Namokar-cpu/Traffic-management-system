@@ -1,185 +1,157 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-    <title>Smart Traffic Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-
-<body>
-
-<div class="container">
-
-    <div class="sidebar">
-        <h2>Traffic Signals</h2>
-
-        <div class="signal">
-            <p>North: <span id="northSignal">RED</span></p>
-            <p>South: <span id="southSignal">RED</span></p>
-            <p>East: <span id="eastSignal">RED</span></p>
-            <p>West: <span id="westSignal">RED</span></p>
-        </div>
-    </div>
-
-    <div class="camera north">
-        <h3>North Camera</h3>
-        <img src="/video/north">
-        <p>Cars: <span id="northCars">0</span></p>
-        <p>Trucks: <span id="northTrucks">0</span></p>
-        <p>Bikes: <span id="northBikes">0</span></p>
-    </div>
-
-    <div class="camera south">
-        <h3>South Camera</h3>
-        <img src="/video/south">
-        <p>Cars: <span id="southCars">0</span></p>
-        <p>Trucks: <span id="southTrucks">0</span></p>
-        <p>Bikes: <span id="southBikes">0</span></p>
-    </div>
-
-    <div class="camera east">
-        <h3>East Camera</h3>
-        <img src="/video/east">
-        <p>Cars: <span id="eastCars">0</span></p>
-        <p>Trucks: <span id="eastTrucks">0</span></p>
-        <p>Bikes: <span id="eastBikes">0</span></p>
-    </div>
-
-    <div class="camera west">
-        <h3>West Camera</h3>
-        <img src="/video/west">
-        <p>Cars: <span id="westCars">0</span></p>
-        <p>Trucks: <span id="westTrucks">0</span></p>
-        <p>Bikes: <span id="westBikes">0</span></p>
-    </div>
-
-</div>
-
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-
-</body>
-</html> -->
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Smart Traffic Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Control Center</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+<body class="dashboard-body">
 
-<body>
+<header class="app-header">
+    <div class="logo">
+        <span class="logo-icon"></span>
+        <h1>Traffic Control Center</h1>
+    </div>
+    <div class="header-status">
+        <span class="status-dot"></span>
+        <span class="status-text">System Online</span>
+    </div>
+</header>
 
-<div class="header">
-    <h1>🚦 ADAPTIVE TRAFFIC CONTROL SYSTEM</h1>
-    <p class="tagline">AI-Powered Real-Time Traffic Management</p>
-</div>
-
-<div class="container">
+<div class="dashboard-container">
 
     <!-- SIDEBAR -->
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h2>🎛️ SIGNAL CONTROL</h2>
-            <div class="status-indicator">
-                <span class="pulse"></span>
-                <span>LIVE</span>
+    <aside class="sidebar">
+        <section class="panel">
+            <header class="panel-header">
+                <h2>Intersection Status</h2>
+            </header>
+            <div class="signal-list">
+                <div class="signal-row">
+                    <span class="direction">North</span>
+                    <span id="northSignal" class="badge RED">RED</span>
+                </div>
+                <div class="signal-row">
+                    <span class="direction">South</span>
+                    <span id="southSignal" class="badge RED">RED</span>
+                </div>
+                <div class="signal-row">
+                    <span class="direction">East</span>
+                    <span id="eastSignal" class="badge RED">RED</span>
+                </div>
+                <div class="signal-row">
+                    <span class="direction">West</span>
+                    <span id="westSignal" class="badge RED">RED</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <header class="panel-header">
+                <h2>System Overview</h2>
+            </header>
+            <div class="stats-list">
+                <div class="stat-row">
+                    <span class="stat-label">Total Vehicles</span>
+                    <span id="totalVehicles" class="stat-value">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Active Flow</span>
+                    <span id="activeDirection" class="stat-value">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Uptime</span>
+                    <span id="uptime" class="stat-value">00:00:00</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel chart-panel">
+            <header class="panel-header">
+                <h2>Traffic Volume Density</h2>
+            </header>
+            <div class="chart-wrapper">
+                <canvas id="trafficChart"></canvas>
+            </div>
+        </section>
+    </aside>
+
+    <!-- MAIN FEEDS -->
+    <main class="feeds-grid">
+        <!-- NORTH -->
+        <div class="camera-card">
+            <header class="camera-header">
+                <h3>North Camera</h3>
+                <span class="camera-status-dot"></span>
+            </header>
+            <div class="video-container">
+                <img src="/video/north" alt="North Camera Feed">
+            </div>
+            <div class="camera-stats">
+                <div class="item-stat"><span class="label">Cars</span><span id="northCars" class="val">0</span></div>
+                <div class="item-stat"><span class="label">Trucks</span><span id="northTrucks" class="val">0</span></div>
+                <div class="item-stat"><span class="label">Bikes</span><span id="northBikes" class="val">0</span></div>
             </div>
         </div>
 
-        <div class="signal-panel">
-
-            <div class="signal-item">
-                <span>⬆️ NORTH</span>
-                <span id="northSignal">RED</span>
+        <!-- SOUTH -->
+        <div class="camera-card">
+            <header class="camera-header">
+                <h3>South Camera</h3>
+                <span class="camera-status-dot"></span>
+            </header>
+            <div class="video-container">
+                <img src="/video/south" alt="South Camera Feed">
             </div>
-
-            <div class="signal-item">
-                <span>⬇️ SOUTH</span>
-                <span id="southSignal">RED</span>
-            </div>
-
-            <div class="signal-item">
-                <span>➡️ EAST</span>
-                <span id="eastSignal">RED</span>
-            </div>
-
-            <div class="signal-item">
-                <span>⬅️ WEST</span>
-                <span id="westSignal">RED</span>
-            </div>
-
-        </div>
-
-        <div class="system-stats">
-            <h3>📊 System Stats</h3>
-
-            <div>
-                Total Vehicles: <span id="totalVehicles">0</span>
-            </div>
-
-            <div>
-                Active Direction: <span id="activeDirection">-</span>
-            </div>
-
-            <div>
-                Uptime: <span id="uptime">00:00:00</span>
+            <div class="camera-stats">
+                <div class="item-stat"><span class="label">Cars</span><span id="southCars" class="val">0</span></div>
+                <div class="item-stat"><span class="label">Trucks</span><span id="southTrucks" class="val">0</span></div>
+                <div class="item-stat"><span class="label">Bikes</span><span id="southBikes" class="val">0</span></div>
             </div>
         </div>
-    </div>
 
-    <!-- NORTH -->
-    <div class="camera">
-        <h3>📹 NORTH</h3>
-        <img src="/video/north" alt="North Camera" style="width: 100%; height: auto; border: 2px solid #00ff00;">
+        <!-- EAST -->
+        <div class="camera-card">
+            <header class="camera-header">
+                <h3>East Camera</h3>
+                <span class="camera-status-dot"></span>
+            </header>
+            <div class="video-container">
+                <img src="/video/east" alt="East Camera Feed">
+            </div>
+            <div class="camera-stats">
+                <div class="item-stat"><span class="label">Cars</span><span id="eastCars" class="val">0</span></div>
+                <div class="item-stat"><span class="label">Trucks</span><span id="eastTrucks" class="val">0</span></div>
+                <div class="item-stat"><span class="label">Bikes</span><span id="eastBikes" class="val">0</span></div>
+            </div>
+        </div>
 
-        Cars: <span id="northCars">0</span><br>
-        Trucks: <span id="northTrucks">0</span><br>
-        Bikes: <span id="northBikes">0</span>
-    </div>
-
-    <!-- SOUTH -->
-    <div class="camera">
-        <h3>📹 SOUTH</h3>
-        <img src="/video/south" alt="South Camera" style="width: 100%; height: auto; border: 2px solid #00ff00;">
-
-        Cars: <span id="southCars">0</span><br>
-        Trucks: <span id="southTrucks">0</span><br>
-        Bikes: <span id="southBikes">0</span>
-    </div>
-
-    <!-- EAST -->
-    <div class="camera">
-        <h3>📹 EAST</h3>
-        <img src="/video/east" alt="East Camera" style="width: 100%; height: auto; border: 2px solid #00ff00;">
-
-        Cars: <span id="eastCars">0</span><br>
-        Trucks: <span id="eastTrucks">0</span><br>
-        Bikes: <span id="eastBikes">0</span>
-    </div>
-
-    <!-- WEST -->
-    <div class="camera">
-        <h3>📹 WEST</h3>
-        <img src="/video/west" alt="West Camera" style="width: 100%; height: auto; border: 2px solid #00ff00;">
-
-        Cars: <span id="westCars">0</span><br>
-        Trucks: <span id="westTrucks">0</span><br>
-        Bikes: <span id="westBikes">0</span>
-    </div>
+        <!-- WEST -->
+        <div class="camera-card">
+            <header class="camera-header">
+                <h3>West Camera</h3>
+                <span class="camera-status-dot"></span>
+            </header>
+            <div class="video-container">
+                <img src="/video/west" alt="West Camera Feed">
+            </div>
+            <div class="camera-stats">
+                <div class="item-stat"><span class="label">Cars</span><span id="westCars" class="val">0</span></div>
+                <div class="item-stat"><span class="label">Trucks</span><span id="westTrucks" class="val">0</span></div>
+                <div class="item-stat"><span class="label">Bikes</span><span id="westBikes" class="val">0</span></div>
+            </div>
+        </div>
+    </main>
 
 </div>
 
-<div class="footer">
-    <p>Traffic System Running 🚦</p>
-</div>
-
-<!-- ✅ IMPORTANT SCRIPTS -->
 <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-<script src="{{ url_for('static', filename='script.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<script src="{{ url_for('static', filename='traffic_chart.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
