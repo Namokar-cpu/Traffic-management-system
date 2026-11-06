@@ -1,9 +1,10 @@
 from ultralytics import YOLO
 import cv2
 import numpy as np
+from backend.paths import MODEL_PATH
 
 # Load YOLO model
-model = YOLO("yolov8n.pt")
+model = YOLO(str(MODEL_PATH))
 model.fuse()
 
 # COCO class names

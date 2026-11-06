@@ -1,12 +1,13 @@
 import cv2
-from sort import Sort
-from detector import process_frame
+from backend.detector import process_frame
+from backend.paths import VIDEO_DIR
+from backend.sort import Sort
 
 # Open videos
-capNorth = cv2.VideoCapture("videos/north.mp4")
-capSouth = cv2.VideoCapture("videos/south.mp4")
-capEast = cv2.VideoCapture("videos/east.mp4")
-capWest = cv2.VideoCapture("videos/west.mp4")
+capNorth = cv2.VideoCapture(str(VIDEO_DIR / "north.mp4"))
+capSouth = cv2.VideoCapture(str(VIDEO_DIR / "south.mp4"))
+capEast = cv2.VideoCapture(str(VIDEO_DIR / "east.mp4"))
+capWest = cv2.VideoCapture(str(VIDEO_DIR / "west.mp4"))
 
 # Create trackers
 trackerNorth = Sort(max_age=30, min_hits=2, iou_threshold=0.25)

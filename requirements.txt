@@ -1,0 +1,9 @@
+Flask
+Flask-SocketIO
+filterpy
+matplotlib
+numpy
+opencv-python
+scikit-image
+scipy
+ultralytics

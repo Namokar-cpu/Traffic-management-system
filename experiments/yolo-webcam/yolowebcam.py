@@ -2,10 +2,13 @@ from ultralytics import YOLO
 import cv2
 import cvzone
 import math
-cap = cv2.VideoCapture("Traffic.mp4") #1 means webcam number 1, if you have only one webcam then it is 0
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+cap = cv2.VideoCapture(str(PROJECT_ROOT / "experiments" / "car-counter" / "Traffic.mp4"))
 #cap.set(3,480) #width 
 #cap.set(4,500)height
-model = YOLO("yolov8n.pt")
+model = YOLO(PROJECT_ROOT / "assets" / "models" / "yolov8n.pt")
 classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
               "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
               "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella",

@@ -1,13 +1,14 @@
 import cv2
-import os
+from pathlib import Path
 
 # Test if videos can be loaded
-videos = ["videos/north.mp4", "videos/south.mp4", "videos/east.mp4", "videos/west.mp4"]
+VIDEO_DIR = Path(__file__).resolve().parents[1] / "assets" / "videos"
+videos = [VIDEO_DIR / f"{direction}.mp4" for direction in ("north", "south", "east", "west")]
 
 print("🔍 Testing video loading...\n")
 
 for video_path in videos:
-    if os.path.exists(video_path):
+    if video_path.exists():
         cap = cv2.VideoCapture(video_path)
         
         if cap.isOpened():

@@ -1,10 +1,29 @@
+from pathlib import Path
 from flask import Flask, render_template, Response
-from cameras import *
+from backend.cameras import (
+    capEast,
+    capNorth,
+    capSouth,
+    capWest,
+    eastVehicles,
+    generate_frames,
+    northVehicles,
+    southVehicles,
+    trackerEast,
+    trackerNorth,
+    trackerSouth,
+    trackerWest,
+    westVehicles,
+)
 from flask_socketio import SocketIO
 import time
-import threading
 
-app = Flask(__name__)
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+app = Flask(
+    __name__,
+    template_folder=str(PROJECT_ROOT / "frontend" / "templates"),
+    static_folder=str(PROJECT_ROOT / "frontend" / "static"),
+)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
 # ==============================

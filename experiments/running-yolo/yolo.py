@@ -1,9 +1,11 @@
 from ultralytics import YOLO
 import cv2
+from pathlib import Path
 
-model = YOLO("yolov8n.pt")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+model = YOLO(PROJECT_ROOT / "assets" / "models" / "yolov8n.pt")
 
-results = model("operate.jpg")
+results = model(Path(__file__).with_name("operate.jpg"))
 
 # Get the plotted image (with bounding boxes)
 for r in results:
