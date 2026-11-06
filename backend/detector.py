@@ -1,11 +1,23 @@
-from ultralytics import YOLO
 import cv2
 import numpy as np
 from backend.paths import MODEL_PATH
 
-# Load YOLO model
-model = YOLO(str(MODEL_PATH))
-model.fuse()
+model = None
+
+
+def get_model():
+    global model
+    if model is None:
+        try:
+            from ultralytics import YOLO
+        except ImportError as exc:
+            raise RuntimeError(
+                "YOLO dependencies are not installed. Install requirements.txt "
+                "before opening a camera feed."
+            ) from exc
+        model = YOLO(str(MODEL_PATH))
+        model.fuse()
+    return model
 
 # COCO class names
 classNames = [
@@ -40,7 +52,7 @@ def process_frame(img, tracker, vehicleSet):
         # ============================================
         # YOLO DETECTION
         # ============================================
-        results = model(img, stream=True, conf=0.5, iou=0.4)
+        results = get_model()(img, stream=True, conf=0.5, iou=0.4)
 
         for r in results:
             for box in r.boxes:
